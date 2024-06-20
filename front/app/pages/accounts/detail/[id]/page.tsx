@@ -1,7 +1,7 @@
 'use client'
 
 import { IAccount } from "@/app/components/account/model/account";
-import { deposit } from "@/app/components/account/service/account-service";
+import { deposit, findByAccount } from "@/app/components/account/service/account-service";
 import { IUser } from "@/app/components/users/model/user.model";
 import { findUserById } from "@/app/components/users/service/user-service";
 import { getUserById } from "@/app/components/users/service/user-slice";
@@ -85,6 +85,8 @@ export default function AccountDetail({ params }: any) {
 
     useEffect(() => {
       dispatch(findUserById(parseCookies()?.accessToken ? jwtDecode<any>(parseCookies().accessToken).userId : 0))
+      dispatch(findByAccount(parseCookies()?.accessToken ? jwtDecode<any>(parseCookies().accessToken).userId : 0))
+      
       const jquery = document.createElement('script');
       jquery.src = 'http://code.jquery.com/jquery-1.12.4.min.js';
       const iamport = document.createElement('script');

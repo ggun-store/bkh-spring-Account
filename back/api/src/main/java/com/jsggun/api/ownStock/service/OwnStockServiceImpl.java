@@ -1,13 +1,11 @@
 package com.jsggun.api.ownStock.service;
 
-import com.jsggun.api.accHistory.model.AccHistoryDto;
 import com.jsggun.api.common.component.Messenger;
 import com.jsggun.api.common.service.KoreaInvestmentOpenFeign;
-import com.jsggun.api.ownStock.model.OwnStockDto;
+import com.jsggun.api.ownStock.domain.OwnStockDto;
 import com.jsggun.api.ownStock.repository.OwnStockRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service

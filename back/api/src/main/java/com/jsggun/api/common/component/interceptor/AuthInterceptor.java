@@ -1,21 +1,15 @@
 package com.jsggun.api.common.component.interceptor;
 
 import com.jsggun.api.common.component.security.JwtProvider;
-import com.jsggun.api.user.model.User;
 import com.jsggun.api.user.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Component

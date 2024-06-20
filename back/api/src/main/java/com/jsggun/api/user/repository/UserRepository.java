@@ -1,8 +1,8 @@
 package com.jsggun.api.user.repository;
 
 
-import com.jsggun.api.user.model.User;
-import com.jsggun.api.user.model.UserDto;
+import com.jsggun.api.user.domain.UserModel;
+import com.jsggun.api.user.domain.UserDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<UserModel,Long> {
 
-    Optional<User> findByUsername(String username);
+    Optional<UserModel> findByUsername(String username);
 
     List<UserDto> findByName(String name);
 

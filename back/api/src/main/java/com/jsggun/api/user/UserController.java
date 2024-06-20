@@ -1,7 +1,7 @@
 package com.jsggun.api.user;
 
 import com.jsggun.api.common.component.Messenger;
-import com.jsggun.api.user.model.UserDto;
+import com.jsggun.api.user.domain.UserDto;
 import com.jsggun.api.user.service.UserService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

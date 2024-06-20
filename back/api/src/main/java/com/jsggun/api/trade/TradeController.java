@@ -1,6 +1,6 @@
 package com.jsggun.api.trade;
 
-import com.jsggun.api.trade.model.TradeDto;
+import com.jsggun.api.trade.domain.TradeDto;
 import com.jsggun.api.trade.service.TradeService;
 import com.jsggun.api.common.component.Messenger;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

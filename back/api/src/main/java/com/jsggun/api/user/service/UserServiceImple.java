@@ -2,18 +2,15 @@ package com.jsggun.api.user.service;
 
 import com.jsggun.api.common.component.security.JwtProvider;
 import com.jsggun.api.common.component.Messenger;
-import com.jsggun.api.user.model.User;
-import com.jsggun.api.user.model.UserDto;
+import com.jsggun.api.user.domain.UserModel;
+import com.jsggun.api.user.domain.UserDto;
 import com.jsggun.api.user.repository.UserRepository;
-import io.jsonwebtoken.Claims;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Payload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,7 +30,7 @@ public class UserServiceImple implements UserService {
     public Messenger save(UserDto userDto) {
         String encodePassword = passwordEncoder.encode(userDto.getPassword());
 
-        var user = repository.save(User.builder()
+        var user = repository.save(UserModel.builder()
                 .id(userDto.getId())
                 .username(userDto.getUsername())
                 .password(encodePassword)
@@ -43,7 +40,7 @@ public class UserServiceImple implements UserService {
                 .build());
 
         return Messenger.builder()
-                .message(user instanceof User ? "SUCCESS":"FAIURE")
+                .message(user instanceof UserModel ? "SUCCESS":"FAIURE")
                 .build();
     }
 

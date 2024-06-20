@@ -1,7 +1,7 @@
 package com.jsggun.api.nonCcld;
 
 import com.jsggun.api.common.component.Messenger;
-import com.jsggun.api.nonCcld.model.NonCcldDto;
+import com.jsggun.api.nonCcld.domain.NonCcldDto;
 import com.jsggun.api.nonCcld.service.NonCcldService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

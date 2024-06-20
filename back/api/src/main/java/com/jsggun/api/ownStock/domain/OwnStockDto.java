@@ -1,7 +1,5 @@
-package com.jsggun.api.nonCcld.model;
+package com.jsggun.api.ownStock.domain;
 
-import com.jsggun.api.account.model.Account;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +13,14 @@ import org.springframework.stereotype.Component;
 @Data
 @Builder
 @Log4j2
-public class NonCcldDto {
-
+public class OwnStockDto {
 
     private Long id;
-    private Long ccldPrvs;
-    private Long volume;
-
+    private String pdno;
+    private String prdtName;
+    private Long pdQty;
+    private Long avgPrvs;
+    private String tradeType;
     private Long account;
+
 }

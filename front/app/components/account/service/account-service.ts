@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createAccountAPI, depositAPI, findAllAccountsAPI } from "./account-api";
+import { createAccountAPI, depositAPI, findAllAccountsAPI, findByAccountAPI } from "./account-api";
 import { IAccount } from "../model/account";
 
 export const findAllAccounts : any = createAsyncThunk(
@@ -24,3 +24,10 @@ export const deposit:any = createAsyncThunk(
     console.log('서비스 확인'+JSON.stringify(dto))
     return data
     })
+
+export const findByAccount : any = createAsyncThunk(
+    'accounts/findByAccount',
+     async (id:number)=>{
+    const data:any = await findByAccountAPI(id);
+    return data
+})

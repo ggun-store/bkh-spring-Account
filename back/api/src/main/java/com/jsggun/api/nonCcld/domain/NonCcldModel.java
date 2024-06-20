@@ -1,6 +1,7 @@
-package com.jsggun.api.accHistory.model;
+package com.jsggun.api.nonCcld.domain;
 
-import com.jsggun.api.account.model.Account;
+
+import com.jsggun.api.account.domain.AccountModel;
 import com.jsggun.api.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,26 +9,21 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"id"})
-@Entity(name = "acc_histories")
+@Entity(name = "non_cclds")
 @Builder
 @AllArgsConstructor
-public class AccHistory extends BaseEntity {
+public class NonCcldModel extends BaseEntity {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "acc_history_id")
     private Long id;
-
-    private Long balance;
-    private String tradeType;
-    private String bank;
-    private String imp_uid;
+    private Long ccldPrvs;
+    private Long volume;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account account;
-
-
+    private AccountModel accountModel;
 
 
 }

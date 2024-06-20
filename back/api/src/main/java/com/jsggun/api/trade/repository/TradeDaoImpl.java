@@ -1,7 +1,7 @@
 package com.jsggun.api.trade.repository;
 
-import com.jsggun.api.trade.model.QTrade;
-import com.jsggun.api.trade.model.Trade;
+import com.jsggun.api.trade.domain.QTradeModel;
+import com.jsggun.api.trade.domain.TradeModel;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +14,9 @@ import java.util.List;
 @Slf4j
 public class TradeDaoImpl implements TradeDao{
     private final JPAQueryFactory factory;
-    private final QTrade trade = QTrade.trade;
+    private final QTradeModel trade = QTradeModel.tradeModel;
     @Override
-    public List<Trade> getListByProductName(String prdtName) {
+    public List<TradeModel> getListByProductName(String prdtName) {
 
         log.info("쿼리dsl {}",factory.selectFrom(trade)
                 .where(trade.prdtName.eq(prdtName))

@@ -1,6 +1,6 @@
 package com.jsggun.api.account;
 
-import com.jsggun.api.account.model.AccountDto;
+import com.jsggun.api.account.domain.AccountDto;
 import com.jsggun.api.account.service.AccountService;
 import com.jsggun.api.common.component.Messenger;
 import com.siot.IamportRestClient.IamportClient;
@@ -8,7 +8,6 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

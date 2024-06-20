@@ -1,19 +1,18 @@
 package com.jsggun.api.account.repository;
 
 
-import com.jsggun.api.account.model.Account;
-import com.jsggun.api.user.model.User;
+import com.jsggun.api.account.domain.AccountModel;
+import com.jsggun.api.user.domain.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<AccountModel, Long> {
 
-    List<Account> findByUser(User user);
+    List<AccountModel> findByUser(UserModel userModel);
 
     Boolean existsByAcno(String acno);
 }

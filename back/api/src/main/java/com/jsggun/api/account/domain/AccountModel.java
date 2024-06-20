@@ -1,9 +1,7 @@
-package com.jsggun.api.account.model;
-
-import java.util.List;
+package com.jsggun.api.account.domain;
 
 import com.jsggun.api.common.model.BaseEntity;
-import com.jsggun.api.user.model.User;
+import com.jsggun.api.user.domain.UserModel;
 import jakarta.persistence.*;
 //import com.jsggun.api.trade.model.Trade;
 import lombok.*;
@@ -15,11 +13,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @Setter
-public class Account extends BaseEntity {
+public class AccountModel extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
     private Long id;
     private String acno;
     private String acpw;
@@ -30,7 +27,7 @@ public class Account extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserModel user;
 
 //    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL,orphanRemoval = true)
 //    private List<Trade> trades;

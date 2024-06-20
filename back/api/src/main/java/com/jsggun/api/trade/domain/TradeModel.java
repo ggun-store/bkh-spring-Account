@@ -1,5 +1,6 @@
-package com.jsggun.api.trade.model;
-import com.jsggun.api.account.model.Account;
+package com.jsggun.api.trade.domain;
+
+import com.jsggun.api.account.domain.AccountModel;
 import com.jsggun.api.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,11 +12,10 @@ import lombok.*;
 @AllArgsConstructor
 @ToString(exclude = {"id"})
 @Entity(name = "trades")
-public class Trade extends BaseEntity {
+public class TradeModel extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "trade_id")
     private Long id;
     private String ordDt;             //주문일
     private String ordGnoBrno;        //주문채번지점번호
@@ -34,6 +34,6 @@ public class Trade extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
-    private Account account;
+    private AccountModel account;
 
 }

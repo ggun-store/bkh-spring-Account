@@ -1,6 +1,5 @@
-package com.jsggun.api.trade.model;
+package com.jsggun.api.trade.domain;
 
-import com.jsggun.api.account.model.Account;
 import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;

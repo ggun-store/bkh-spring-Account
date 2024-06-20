@@ -1,10 +1,10 @@
 package com.jsggun.api.trade.service;
 
-import com.jsggun.api.trade.model.Trade;
-import com.jsggun.api.trade.model.TradeDto;
-import com.jsggun.api.account.model.Account;
+import com.jsggun.api.account.domain.AccountModel;
 import com.jsggun.api.common.service.CommandService;
 import com.jsggun.api.common.service.QueryService;
+import com.jsggun.api.trade.domain.TradeDto;
+import com.jsggun.api.trade.domain.TradeModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +13,8 @@ import java.util.Optional;
 public interface TradeService extends CommandService<TradeDto>, QueryService<TradeDto> {
 
 
-    default Trade dtoToEntity(TradeDto tradeDto, Account account){
-        return Trade.builder()
+    default TradeModel dtoToEntity(TradeDto tradeDto, AccountModel account){
+        return TradeModel.builder()
                 .id(tradeDto.getId())
                 .ordDt(tradeDto.getOrdDt())
                 .ordGnoBrno(tradeDto.getOrdGnoBrno())
@@ -34,7 +34,7 @@ public interface TradeService extends CommandService<TradeDto>, QueryService<Tra
                 .build();
     }
 
-    default TradeDto entityToDto(Trade trade){
+    default TradeDto entityToDto(TradeModel trade){
         return TradeDto.builder()
                 .id(trade.getId())
                 .ordDt(trade.getOrdDt())

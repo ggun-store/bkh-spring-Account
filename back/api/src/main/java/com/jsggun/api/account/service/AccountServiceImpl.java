@@ -1,11 +1,11 @@
 package com.jsggun.api.account.service;
 
-import com.jsggun.api.account.model.Account;
-import com.jsggun.api.account.model.AccountDto;
+import com.jsggun.api.account.domain.AccountModel;
+import com.jsggun.api.account.domain.AccountDto;
 import com.jsggun.api.account.repository.AccountRepository;
 import com.jsggun.api.common.component.Messenger;
 import com.jsggun.api.common.service.UtilService;
-import com.jsggun.api.user.model.User;
+import com.jsggun.api.user.domain.UserModel;
 import com.jsggun.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Messenger save(AccountDto accountDto) {
-        User user = userRepository.findById(accountDto.getUser()).orElseThrow();
+        UserModel userModel = userRepository.findById(accountDto.getUser()).orElseThrow();
 
         String encodePassword = passwordEncoder.encode(accountDto.getAcpw());
         String acno = "";
@@ -44,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
             }
         }
 
-        Account account = repository.save(Account.builder()
+        AccountModel accountModel = repository.save(AccountModel.builder()
                 .id(accountDto.getId())
                 .acno(acno)
                 .acpw(encodePassword)
@@ -52,11 +52,11 @@ public class AccountServiceImpl implements AccountService {
                 .refundAcno(accountDto.getRefundAcno())
                 .bank(accountDto.getBank())
                 .acType(accountDto.getAcType())
-                .user(user)
+                .user(userModel)
                 .build());
 
         return Messenger.builder()
-                .message(account instanceof Account ? "SUCCESS" : "FAIURE")
+                .message(accountModel instanceof AccountModel ? "SUCCESS" : "FAIURE")
                 .build();
     }
 
@@ -77,7 +77,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Optional<AccountDto> findById(Long id) {
-        return Optional.empty();
+
+        return Optional.ofNullable(
+                entityToDto(Objects.requireNonNull(repository.findById(id).orElse(null))));
     }
 
     @Override
@@ -92,19 +94,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDto> findByUser(Long id) {
-        User user = userRepository.findById(id).get();
-        return repository.findByUser(user)
+        UserModel userModel = userRepository.findById(id).get();
+        return repository.findByUser(userModel)
                 .stream().map(i -> entityToDto(i)).toList();
     }
 
     @Override
     @Transactional
     public Messenger deposit(AccountDto accountDto) {
-        Account ac = repository.findById(accountDto.getId()).get();
+        AccountModel ac = repository.findById(accountDto.getId()).get();
 
         ac.setBalance(ac.getBalance() + accountDto.getBalance());
 
-        Account bc = repository.save(ac);
+        AccountModel bc = repository.save(ac);
 
         return Messenger.builder()
                 .message(bc.getBalance() >= accountDto.getBalance() ? "SUCCESS" : "FAIURE")

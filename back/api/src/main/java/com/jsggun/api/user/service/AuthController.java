@@ -1,17 +1,13 @@
 package com.jsggun.api.user.service;
 
 import com.jsggun.api.common.component.Messenger;
-import com.jsggun.api.user.model.UserDto;
-import com.jsggun.api.user.service.UserService;
+import com.jsggun.api.user.domain.UserDto;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @ApiResponses({

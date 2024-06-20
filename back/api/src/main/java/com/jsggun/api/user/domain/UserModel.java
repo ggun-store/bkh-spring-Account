@@ -1,7 +1,7 @@
-package com.jsggun.api.user.model;
+package com.jsggun.api.user.domain;
 
 
-import com.jsggun.api.account.model.Account;
+import com.jsggun.api.account.domain.AccountModel;
 
 import com.jsggun.api.common.model.BaseEntity;
 import jakarta.persistence.*;
@@ -15,10 +15,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @Setter
-public class User extends BaseEntity {
+public class UserModel extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long id;
     private String username;
     private String password;
@@ -28,7 +27,7 @@ public class User extends BaseEntity {
     private String token;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Account> accounts;
+    private List<AccountModel> accountModels;
 
     @Override
     public String toString() {

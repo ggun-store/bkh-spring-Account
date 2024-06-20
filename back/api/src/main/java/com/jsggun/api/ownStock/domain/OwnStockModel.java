@@ -1,7 +1,7 @@
-package com.jsggun.api.ownStock.model;
+package com.jsggun.api.ownStock.domain;
 
 
-import com.jsggun.api.account.model.Account;
+import com.jsggun.api.account.domain.AccountModel;
 import com.jsggun.api.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,12 +12,11 @@ import lombok.*;
 @Entity(name = "own_stocks")
 @Builder
 @AllArgsConstructor
-public class OwnStock extends BaseEntity {
+public class OwnStockModel extends BaseEntity {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "own_stock_id")
     private Long id;
 
     private String pdno;
@@ -29,7 +28,7 @@ public class OwnStock extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account account;
+    private AccountModel accountModel;
 
 
 }

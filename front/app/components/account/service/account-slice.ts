@@ -1,7 +1,7 @@
 "use client"; 
 
 import { createSlice } from "@reduxjs/toolkit";
-import { findAllAccounts } from "./account-service";
+import { findAllAccounts, findByAccount } from "./account-service";
 import { IAccount } from "../model/account";
 
 
@@ -44,6 +44,7 @@ export const accountSlice = createSlice({
 
         builder
         .addCase(findAllAccounts.fulfilled,(state :any, {payload}:any) => {state.array = payload})
+        .addCase(findByAccount.fulfilled,(state :any, {payload}:any) => {state.array = payload})
     }
 })
 export const getAllaccounts =(state:any )=> state.account.array;

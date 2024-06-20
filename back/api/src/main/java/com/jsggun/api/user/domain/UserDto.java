@@ -1,8 +1,6 @@
-package com.jsggun.api.accHistory.model;
+package com.jsggun.api.user.domain;
 
 
-import com.jsggun.api.account.model.Account;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,17 +11,18 @@ import org.springframework.stereotype.Component;
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
+@Data
 @Log4j2
-public class AccHistoryDto {
-
+public class UserDto {
 
     private Long id;
+    private String username;
+    private String password;
+    private String name;
+    private String phone;
+    private String job;
+    private String token;
 
-    private Long balance;
-    private String tradeType;
-    private String bank;
-
-    private Long account;
+//    private List<Account> accounts= new ArrayList<>();
 }

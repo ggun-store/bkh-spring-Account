@@ -1,6 +1,6 @@
 package com.jsggun.api.accHistory.service;
 
-import com.jsggun.api.accHistory.model.AccHistoryDto;
+import com.jsggun.api.accHistory.domain.AccHistoryDto;
 import com.jsggun.api.common.component.Messenger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

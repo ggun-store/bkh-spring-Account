@@ -1,6 +1,6 @@
 package com.jsggun.api.accHistory;
 
-import com.jsggun.api.accHistory.model.AccHistoryDto;
+import com.jsggun.api.accHistory.domain.AccHistoryDto;
 import com.jsggun.api.accHistory.service.AccHistoryService;
 import com.jsggun.api.common.component.Messenger;
 import lombok.RequiredArgsConstructor;

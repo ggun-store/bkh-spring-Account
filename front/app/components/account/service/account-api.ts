@@ -38,3 +38,16 @@ export const depositAPI = async (dto:IAccount)=>{
         console.log(error)
     }
 }
+
+export const findByAccountAPI = async (id:number)=>{
+
+    try {
+        const response = await instance().post('/accounts/detail',{
+            params:{id}
+        })
+        console.log('api 확인'+JSON.stringify(id))
+        return response.data
+    }catch(error){
+        console.log(error)
+    }
+}

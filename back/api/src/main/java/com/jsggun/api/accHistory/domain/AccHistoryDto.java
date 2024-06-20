@@ -1,8 +1,6 @@
-package com.jsggun.api.ownStock.model;
+package com.jsggun.api.accHistory.domain;
 
-import com.jsggun.api.account.model.Account;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,14 +14,14 @@ import org.springframework.stereotype.Component;
 @Data
 @Builder
 @Log4j2
-public class OwnStockDto {
+public class AccHistoryDto {
+
 
     private Long id;
-    private String pdno;
-    private String prdtName;
-    private Long pdQty;
-    private Long avgPrvs;
-    private String tradeType;
-    private Long account;
 
+    private Long balance;
+    private String tradeType;
+    private String bank;
+
+    private Long account;
 }
