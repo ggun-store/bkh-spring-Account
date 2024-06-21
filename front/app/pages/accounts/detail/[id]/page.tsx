@@ -2,6 +2,7 @@
 
 import { IAccount } from "@/app/components/account/model/account";
 import { deposit, findByAccount } from "@/app/components/account/service/account-service";
+import { getAccount } from "@/app/components/account/service/account-slice";
 import { IUser } from "@/app/components/users/model/user.model";
 import { findUserById } from "@/app/components/users/service/user-service";
 import { getUserById } from "@/app/components/users/service/user-slice";
@@ -21,6 +22,7 @@ export default function AccountDetail({ params }: any) {
     const dispatch = useDispatch();
     const [amount,setAmount] = useState(0);
     const user:IUser =useSelector(getUserById)
+    const account:IAccount = useSelector(getAccount)
 
     const onSubmit = (data: any) => {
       window.IMP.init('imp78657013'); // Iamport 가맹점 식별코드

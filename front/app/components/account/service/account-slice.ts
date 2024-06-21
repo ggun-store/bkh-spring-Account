@@ -44,10 +44,11 @@ export const accountSlice = createSlice({
 
         builder
         .addCase(findAllAccounts.fulfilled,(state :any, {payload}:any) => {state.array = payload})
-        .addCase(findByAccount.fulfilled,(state :any, {payload}:any) => {state.array = payload})
+        .addCase(findByAccount.fulfilled,(state :any, {payload}:any) => {state.json = payload})
     }
 })
 export const getAllaccounts =(state:any )=> state.account.array;
+export const getAccount =(state:any )=> state.account.json;
 
 
 
