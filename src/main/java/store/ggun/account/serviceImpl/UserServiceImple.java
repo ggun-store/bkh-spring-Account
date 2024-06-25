@@ -1,6 +1,6 @@
-package store.ggun.account.service.serviceImpl;
+package store.ggun.account.serviceImpl;
 
-import store.ggun.account.conponent.security.JwtProvider;
+import store.ggun.account.security.JwtProvider;
 import store.ggun.account.domain.dto.Messenger;
 import store.ggun.account.domain.model.UserModel;
 import store.ggun.account.domain.dto.UserDto;

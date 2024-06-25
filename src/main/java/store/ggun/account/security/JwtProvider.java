@@ -1,4 +1,4 @@
-package store.ggun.account.conponent.security;
+package store.ggun.account.security;
 
 
 import store.ggun.account.domain.dto.UserDto;

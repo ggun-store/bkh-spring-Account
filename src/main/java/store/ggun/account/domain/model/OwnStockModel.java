@@ -6,6 +6,7 @@ import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @ToString(exclude = {"id"})
 @Entity(name = "own_stocks")
 @Builder
@@ -26,7 +27,7 @@ public class OwnStockModel extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private AccountModel accountModel;
+    private AccountModel account;
 
 
 }

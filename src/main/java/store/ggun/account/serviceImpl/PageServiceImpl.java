@@ -1,4 +1,4 @@
-package store.ggun.account.service.serviceImpl;
+package store.ggun.account.serviceImpl;
 
 
 import store.ggun.account.domain.dto.PageDto;

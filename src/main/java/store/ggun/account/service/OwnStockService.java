@@ -15,7 +15,7 @@ public interface OwnStockService extends CommandService<OwnStockDto>, QueryServi
                 .pdQty(ownStockDto.getPdQty())
                 .avgPrvs(ownStockDto.getAvgPrvs())
                 .tradeType(ownStockDto.getTradeType())
-                .accountModel(accountModel)
+                .account(accountModel)
                 .build();
     }
 
@@ -27,7 +27,7 @@ public interface OwnStockService extends CommandService<OwnStockDto>, QueryServi
                 .pdQty(ownStockModel.getPdQty())
                 .avgPrvs(ownStockModel.getAvgPrvs())
                 .tradeType(ownStockModel.getTradeType())
-                .account(ownStockModel.getAccountModel().getId())
+                .account(ownStockModel.getAccount().getId())
 
                 .build();
     }

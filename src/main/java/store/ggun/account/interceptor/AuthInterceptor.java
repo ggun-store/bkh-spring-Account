@@ -1,6 +1,6 @@
-package store.ggun.account.conponent.interceptor;
+package store.ggun.account.interceptor;
 
-import store.ggun.account.conponent.security.JwtProvider;
+import store.ggun.account.security.JwtProvider;
 import store.ggun.account.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

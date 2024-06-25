@@ -1,4 +1,4 @@
-package store.ggun.account.service.serviceImpl;
+package store.ggun.account.serviceImpl;
 
 import org.springframework.stereotype.Component;
 import store.ggun.account.service.UtilService;

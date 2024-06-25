@@ -21,13 +21,6 @@ public class OwnStockController {
     
     private final OwnStockService ownStockService;
 
-
-    @Value("${koreainvestment.key}")
-    private String appKey;
-
-    @Value("${koreainvestment.secret}")
-    private String appSecret;
-
     @PostMapping("/save")
     public ResponseEntity<Messenger> save(@RequestBody OwnStockDto ownStockDto){
         return ResponseEntity.ok(ownStockService.save(ownStockDto));

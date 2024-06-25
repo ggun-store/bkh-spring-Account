@@ -1,18 +1,17 @@
-package store.ggun.account.service.serviceImpl;
+package store.ggun.account.serviceImpl;
 
 import store.ggun.account.domain.dto.KIvTokenRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import store.ggun.account.service.KoreaInvestmentOpenFeign;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class KoreaInvestmentOpenFeignImpl {
+public class KISOpenFeign {
 
-    private final KoreaInvestmentOpenFeign openFeign;
+    private final store.ggun.account.service.KoreaInvestmentOpenFeign openFeign;
     private String token;
 
     @Value("${koreainvestment.key}")

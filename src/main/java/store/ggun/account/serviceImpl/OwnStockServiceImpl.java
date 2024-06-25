@@ -1,7 +1,11 @@
-package store.ggun.account.service.serviceImpl;
+package store.ggun.account.serviceImpl;
 
+import org.springframework.transaction.annotation.Transactional;
 import store.ggun.account.domain.dto.Messenger;
 import store.ggun.account.domain.dto.OwnStockDto;
+import store.ggun.account.domain.model.AccountModel;
+import store.ggun.account.domain.model.OwnStockModel;
+import store.ggun.account.repository.AccountRepository;
 import store.ggun.account.repository.OwnStockRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +22,8 @@ import java.util.Optional;
 public class OwnStockServiceImpl implements OwnStockService {
 
     private final OwnStockRepository ownStockRepository;
-    private final KoreaInvestmentOpenFeignImpl openFeign;
+    private final AccountRepository accountRepository;
+    private final KISOpenFeign openFeign;
     @Value("${koreainvestment.key}")
     private String appKey;
 
@@ -32,8 +37,33 @@ public class OwnStockServiceImpl implements OwnStockService {
     }
 
     @Override
+    @Transactional
     public Messenger save(OwnStockDto ownStockDto) {
-        return null;
+        Optional<OwnStockModel> stock = ownStockRepository.findByPdnoAndAccountIdAndTradeType(ownStockDto.getPdno(),ownStockDto.getAccount(),ownStockDto.getTradeType());
+        Optional<AccountModel> account = accountRepository.findById(ownStockDto.getAccount());
+
+
+        if(stock.isEmpty()){
+            ownStockRepository.save(OwnStockModel.builder()
+                            .pdno(ownStockDto.getPdno())
+                            .prdtName(ownStockDto.getPrdtName())
+                            .pdQty(ownStockDto.getPdQty())
+                            .avgPrvs(ownStockDto.getAvgPrvs())
+                            .tradeType(ownStockDto.getTradeType())
+                            .account(account.get())
+                    .build());
+
+        return Messenger.builder().message("주문 완료").build();
+
+        }else {
+            stock.get().setPdQty(stock.get().getPdQty()+ownStockDto.getPdQty());
+            stock.get().setAvgPrvs((ownStockDto.getAvgPrvs()+stock.get().getAvgPrvs())/2);
+
+            ownStockRepository.save(stock.get());
+
+
+        return Messenger.builder().message("주문 완료").build();
+        }
     }
 
     @Override

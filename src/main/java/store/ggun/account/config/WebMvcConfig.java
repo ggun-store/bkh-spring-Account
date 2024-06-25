@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import store.ggun.account.conponent.interceptor.AuthInterceptor;
+import store.ggun.account.interceptor.AuthInterceptor;
 
 @Configuration
 @RequiredArgsConstructor
