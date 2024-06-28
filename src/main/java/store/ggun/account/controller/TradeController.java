@@ -19,7 +19,7 @@ import java.util.Optional;
         @ApiResponse(responseCode = "200", description = "SUCCESS"),
 })
 @RequiredArgsConstructor
-@RequestMapping("/api/trades")
+@RequestMapping("/trades")
 @CrossOrigin(origins = "*",allowedHeaders = "*")
 @Slf4j
 public class TradeController {

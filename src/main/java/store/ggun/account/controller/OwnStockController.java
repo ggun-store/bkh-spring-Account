@@ -14,12 +14,18 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/ownStocks")
+@RequestMapping("/own-stocks")
 @CrossOrigin(origins = "*",allowedHeaders = "*")
 @Slf4j
 public class OwnStockController {
     
     private final OwnStockService ownStockService;
+
+
+    @GetMapping("/")
+    public String test(){
+        return "ownStock test";
+    }
 
     @PostMapping("/save")
     public ResponseEntity<Messenger> save(@RequestBody OwnStockDto ownStockDto){

@@ -39,4 +39,6 @@ public interface AccountService extends CommandService<AccountDto>, QueryService
     List<AccountDto> findByUser(Long id);
 
     Messenger deposit(AccountDto accountDto);
+
+    Messenger withdraw(AccountDto accountDto);
 }

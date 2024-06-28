@@ -11,12 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/accounts")
+//@RequestMapping("/test")
 @CrossOrigin(origins = "*",allowedHeaders = "*")
 @Slf4j
 public class AccountController {
@@ -24,6 +25,11 @@ public class AccountController {
     private final AccountService service;
 
     private final IamportClient iamportClient;
+
+    @GetMapping("/")
+    public String home(){
+        return "welcome to account-service " + LocalDateTime.now();
+    }
 
 
     @PostMapping("/verifyIamport/{imp_uid}")
@@ -46,13 +52,19 @@ public class AccountController {
         return ResponseEntity.ok(service.deposit(accountDto));
     }
 
+    @PostMapping("/withdraw")
+    public ResponseEntity<Messenger> withdraw(@RequestBody AccountDto accountDto){
+        log.info("계좌가입 입력정보 {} ",accountDto);
+        return ResponseEntity.ok(service.withdraw(accountDto));
+    }
+
     @DeleteMapping("/delete")
     public ResponseEntity<Messenger> deleteById(@RequestParam long id){
         return ResponseEntity.ok(service.deleteById(id));
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<AccountDto>> findByUser(@RequestParam Long id){
+    public ResponseEntity<List<AccountDto>> findByUser(@RequestParam long id){
         return ResponseEntity.ok(service.findByUser(id));
     }
 

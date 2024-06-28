@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/accHistories")
+@RequestMapping("/acc-histories")
 @CrossOrigin(origins = "*",allowedHeaders = "*")
 public class AccHistoryController {
 

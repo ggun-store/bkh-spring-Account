@@ -21,7 +21,7 @@ public class AccHistoryModel extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private AccountModel accountModel;
+    private AccountModel account;
 
 
 

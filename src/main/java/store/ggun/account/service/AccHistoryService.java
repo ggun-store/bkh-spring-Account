@@ -15,7 +15,7 @@ public interface AccHistoryService extends CommandService<AccHistoryDto>, QueryS
                 .balance(accHistorydto.getBalance())
                 .tradeType(accHistorydto.getTradeType())
                 .bank(accHistorydto.getBank())
-                .accountModel(accountModel)
+                .account(accountModel)
                 .build();
     }
 
@@ -25,7 +25,7 @@ public interface AccHistoryService extends CommandService<AccHistoryDto>, QueryS
                 .balance(accHistoryModel.getBalance())
                 .tradeType(accHistoryModel.getTradeType())
                 .bank(accHistoryModel.getBank())
-                .account(accHistoryModel.getAccountModel().getId())
+                .account(accHistoryModel.getAccount().getId())
                 .build();
     }
 

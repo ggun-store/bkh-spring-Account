@@ -22,5 +22,6 @@ public class OwnStockDto {
     private Long avgPrvs;
     private String tradeType;
     private Long account;
+    private int sllBuyDvsnCd;
 
 }

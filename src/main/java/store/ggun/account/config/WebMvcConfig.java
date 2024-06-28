@@ -10,21 +10,20 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import store.ggun.account.interceptor.AuthInterceptor;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    private final AuthInterceptor authInterceptor;
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-             registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/account/**")
-                .excludePathPatterns("/account/auth/**");
-    }
+//    private final AuthInterceptor authInterceptor;
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//             registry.addInterceptor(authInterceptor)
+//                .addPathPatterns("/accounts/**")
+//                .excludePathPatterns("/accounts/auth/**");
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {

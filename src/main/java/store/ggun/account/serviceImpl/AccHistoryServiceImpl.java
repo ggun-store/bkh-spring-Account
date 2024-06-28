@@ -63,6 +63,6 @@ public class AccHistoryServiceImpl implements AccHistoryService {
 
     @Override
     public List<AccHistoryDto> findByAccount(Long id) {
-        return null;
+        return repository.findByAccountId(id);
     }
 }

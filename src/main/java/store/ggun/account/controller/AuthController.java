@@ -17,7 +17,7 @@ import store.ggun.account.service.UserService;
         @ApiResponse(responseCode = "200", description = "SUCCESS"),
 })
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 public class AuthController {

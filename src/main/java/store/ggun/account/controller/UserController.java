@@ -20,7 +20,7 @@ import java.util.Optional;
         @ApiResponse(responseCode = "200", description = "SUCCESS"),
 })
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 public class UserController {
