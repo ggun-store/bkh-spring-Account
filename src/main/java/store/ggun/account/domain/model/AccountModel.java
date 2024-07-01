@@ -24,9 +24,7 @@ public class AccountModel extends BaseEntity {
     private String bank;
     private String acType;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserModel user;
+    private Long userId;
 
 //    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL,orphanRemoval = true)
 //    private List<Trade> trades;

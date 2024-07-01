@@ -8,8 +8,6 @@ import store.ggun.account.repository.AccountRepository;
 import store.ggun.account.domain.dto.Messenger;
 import store.ggun.account.service.AccountService;
 import store.ggun.account.service.UtilService;
-import store.ggun.account.domain.model.UserModel;
-import store.ggun.account.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,14 +23,12 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository repository;
-    private final UserRepository userRepository;
     private final AccHistoryRepository accHistoryRepository;
     private final UtilService util;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public Messenger save(AccountDto accountDto) {
-        UserModel userModel = userRepository.findById(accountDto.getUser()).orElseThrow();
 
         String encodePassword = passwordEncoder.encode(accountDto.getAcpw());
         String acno = "";
@@ -56,7 +52,7 @@ public class AccountServiceImpl implements AccountService {
                 .refundAcno(accountDto.getRefundAcno())
                 .bank(accountDto.getBank())
                 .acType(accountDto.getAcType())
-                .user(userModel)
+                .userId(accountDto.getUserId())
                 .build());
 
         return Messenger.builder()
@@ -98,8 +94,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDto> findByUser(Long id) {
-        UserModel userModel = userRepository.findById(id).get();
-        return repository.findByUser(userModel)
+        return repository.findByUserId(id)
                 .stream().map(i -> entityToDto(i)).toList();
     }
 

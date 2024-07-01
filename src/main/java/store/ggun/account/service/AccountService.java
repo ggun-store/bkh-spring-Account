@@ -3,13 +3,12 @@ package store.ggun.account.service;
 import store.ggun.account.domain.model.AccountModel;
 import store.ggun.account.domain.dto.AccountDto;
 import store.ggun.account.domain.dto.Messenger;
-import store.ggun.account.domain.model.UserModel;
 
 import java.util.List;
 
 public interface AccountService extends CommandService<AccountDto>, QueryService<AccountDto> {
 
-    default AccountModel dtoToEntity(AccountDto accountDto, UserModel userModel){
+    default AccountModel dtoToEntity(AccountDto accountDto){
         return AccountModel.builder()
                 .id(accountDto.getId())
                 .acno(accountDto.getAcno())
@@ -17,7 +16,7 @@ public interface AccountService extends CommandService<AccountDto>, QueryService
                 .balance(accountDto.getBalance())
                 .bank(accountDto.getBank())
                 .acType(accountDto.getAcType())
-                .user(userModel)
+                .userId(accountDto.getUserId())
                 .build();
     }
 
@@ -29,7 +28,7 @@ public interface AccountService extends CommandService<AccountDto>, QueryService
                 .balance(accountModel.getBalance())
                 .bank(accountModel.getBank())
                 .acType(accountModel.getAcType())
-                .user(accountModel.getUser().getId())
+                .userId(accountModel.getUserId())
                 .regDate(String.valueOf(accountModel.getRegDate()))
                 .modDate(String.valueOf(accountModel.getRegDate()))
                 .build();

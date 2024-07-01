@@ -29,7 +29,7 @@ public class AccountDto {
     private String regDate;
     private String modDate;
 
-    private Long user;
+    private Long userId;
 
 //    private List<Trade> trades = new ArrayList<>();
 
