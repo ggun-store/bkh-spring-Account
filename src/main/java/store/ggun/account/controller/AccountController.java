@@ -48,14 +48,19 @@ public class AccountController {
 
     @PostMapping("/deposit")
     public ResponseEntity<Messenger> deposit(@RequestBody AccountDto accountDto){
-        log.info("계좌가입 입력정보 {} ",accountDto);
+        log.info("입금 입력정보 {} ",accountDto);
         return ResponseEntity.ok(service.deposit(accountDto));
     }
 
     @PostMapping("/withdraw")
     public ResponseEntity<Messenger> withdraw(@RequestBody AccountDto accountDto){
-        log.info("계좌가입 입력정보 {} ",accountDto);
+        log.info("출금 입력정보 {} ",accountDto);
         return ResponseEntity.ok(service.withdraw(accountDto));
+    }
+    @PostMapping("/acTransfer")
+    public ResponseEntity<Messenger> acTransfer(@RequestBody AccountDto accountDto){
+        log.info("송금 입력정보 {} ",accountDto);
+        return ResponseEntity.ok(service.acTransfer(accountDto));
     }
 
     @DeleteMapping("/delete")

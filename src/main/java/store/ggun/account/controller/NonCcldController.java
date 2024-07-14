@@ -27,7 +27,7 @@ public class NonCcldController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<NonCcldDto>> findAll(@RequestParam Long id){
+    public ResponseEntity<List<NonCcldDto>> findByAccount(@RequestParam Long id){
         return ResponseEntity.ok(nonCcldService.findByAccount(id));
     }
 

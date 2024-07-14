@@ -1,5 +1,6 @@
 package store.ggun.account.service;
 
+import org.springframework.data.domain.Page;
 import store.ggun.account.domain.model.AccHistoryModel;
 import store.ggun.account.domain.dto.AccHistoryDto;
 import store.ggun.account.domain.model.AccountModel;
@@ -14,7 +15,7 @@ public interface AccHistoryService extends CommandService<AccHistoryDto>, QueryS
                 .id(accHistorydto.getId())
                 .balance(accHistorydto.getBalance())
                 .tradeType(accHistorydto.getTradeType())
-                .bank(accHistorydto.getBank())
+                .briefs(accHistorydto.getBriefs())
                 .account(accountModel)
                 .build();
     }
@@ -24,11 +25,11 @@ public interface AccHistoryService extends CommandService<AccHistoryDto>, QueryS
                 .id(accHistoryModel.getId())
                 .balance(accHistoryModel.getBalance())
                 .tradeType(accHistoryModel.getTradeType())
-                .bank(accHistoryModel.getBank())
+                .briefs(accHistoryModel.getBriefs())
                 .account(accHistoryModel.getAccount().getId())
                 .build();
     }
 
 
-    List<AccHistoryDto> findByAccount(Long id);
+    Page<AccHistoryDto> findByAccount(Long id, int page);
 }

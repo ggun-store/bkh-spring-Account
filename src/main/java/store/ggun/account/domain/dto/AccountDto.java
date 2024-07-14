@@ -19,10 +19,12 @@ public class AccountDto {
 
     private Long id;
     private String acno;
+    private Long receiveAcId;
     private String acpw;
     private Long balance;
     private String refundAcno;
     private String bank;
+    private String briefs;
     private String acType;
     private String tradeType;
     private String paymentUid;

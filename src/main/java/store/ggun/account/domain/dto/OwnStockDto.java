@@ -18,10 +18,13 @@ public class OwnStockDto {
     private Long id;
     private String pdno;
     private String prdtName;
-    private Long pdQty;
+    private int pdQty;
     private Long avgPrvs;
     private String tradeType;
     private Long account;
     private int sllBuyDvsnCd;
+    private int ordDvsnCd;
+    private String regDate;
+    private String modDate;
 
 }

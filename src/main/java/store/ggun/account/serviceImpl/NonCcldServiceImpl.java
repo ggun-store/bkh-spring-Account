@@ -4,15 +4,18 @@ import store.ggun.account.domain.dto.Messenger;
 import store.ggun.account.domain.dto.NonCcldDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import store.ggun.account.repository.NonCcldRepository;
 import store.ggun.account.service.NonCcldService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class NonCcldServiceImpl implements NonCcldService {
 
+    private final NonCcldRepository repository;
 
     @Override
     public Messenger save(NonCcldDto nonCcldDto) {
@@ -36,21 +39,24 @@ public class NonCcldServiceImpl implements NonCcldService {
 
     @Override
     public Optional<NonCcldDto> findById(Long id) {
-        return Optional.empty();
+        return Optional.ofNullable(
+                entityToDto(Objects.requireNonNull(repository.findById(id).orElse(null))));
     }
 
     @Override
     public long count() {
+//        return repository.countByAccount();
         return 0;
     }
 
     @Override
     public boolean existsById(Long id) {
-        return false;
+        return repository.existsById(id);
     }
 
     @Override
     public List<NonCcldDto> findByAccount(Long id) {
+//        return repository.findByAccount(id);
         return null;
     }
 }

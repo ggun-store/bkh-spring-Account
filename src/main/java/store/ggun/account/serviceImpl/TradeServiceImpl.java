@@ -1,7 +1,9 @@
 package store.ggun.account.serviceImpl;
 
+import store.ggun.account.domain.model.AccHistoryModel;
 import store.ggun.account.domain.model.AccountModel;
 import store.ggun.account.domain.dto.TradeDto;
+import store.ggun.account.domain.model.TradeModel;
 import store.ggun.account.repository.TradeRepository;
 import store.ggun.account.repository.AccountRepository;
 import store.ggun.account.domain.dto.Messenger;
@@ -18,10 +20,16 @@ import java.util.Optional;
 @Slf4j
 public class TradeServiceImpl implements TradeService {
     private final TradeRepository repository;
-    private final AccountRepository accountRepo;
+    private final AccountRepository accountRepository;
     @Override
     public Messenger save(TradeDto tradeDto) {
-        return null;
+        AccountModel accountModel = accountRepository.findById(tradeDto.getAccount()).get();
+
+        TradeModel tradeModel = repository.save(dtoToEntity(tradeDto,accountModel));
+
+        return Messenger.builder()
+                .message(tradeModel instanceof TradeModel ? "SUCCESS" : "FAIURE")
+                .build();
     }
 
     @Override
@@ -58,7 +66,7 @@ public class TradeServiceImpl implements TradeService {
 
     @Override
     public List<TradeDto> findByAcno(Long id) {
-        AccountModel ac = accountRepo.findById(id).get();
+        AccountModel ac = accountRepository.findById(id).get();
         return repository.findByAccount(ac)
                 .stream().map(i->entityToDto(i)).toList();
     }

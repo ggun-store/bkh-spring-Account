@@ -17,11 +17,16 @@ public class NonCcldModel extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long ccldPrvs;
-    private Long volume;
+    private int pdQty;
+    private String pdno;
+    private String prdtName;
+    private String tradeType;
+    private int sllBuyDvsnCd;
+    private int ordDvsnCd;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private AccountModel accountModel;
+    private AccountModel account;
 
 
 }

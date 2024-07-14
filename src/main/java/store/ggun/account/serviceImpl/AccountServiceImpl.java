@@ -30,34 +30,34 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Messenger save(AccountDto accountDto) {
 
-        String encodePassword = passwordEncoder.encode(accountDto.getAcpw());
-        String acno = "";
-        if (accountDto.getAcType().equals("01")) {
-            acno = util.createRandomInteger(20000000, 29999999) + "-" + accountDto.getAcType();
-            while (repository.existsByAcno(acno)) {
-                acno = util.createRandomInteger(20000000, 29999999) + "-" + accountDto.getAcType();
-            }
-        } else if (accountDto.getAcType().equals("02")) {
-            acno = util.createRandomInteger(50000000, 59999999) + "-" + accountDto.getAcType();
-            while (repository.existsByAcno(acno)) {
-                acno = util.createRandomInteger(50000000, 59999999) + "-" + accountDto.getAcType();
-            }
-        }
+        return accountDto.getAcType().equals("02") ?
+                checkAiAc(accountDto.getUserId(), accountDto.getAcType()) ?
+                        Messenger.builder().message("AI 계좌가 존재합니다.").build() : createAc(accountDto)
+                : createAc(accountDto);
+    }
 
+    private Messenger createAc(AccountDto accountDto) {
+        String acno = util.createAccountNumber(accountDto.getAcType());
+        while (repository.existsByAcno(acno)) {
+            acno = util.createAccountNumber(accountDto.getAcType());
+        }
         AccountModel accountModel = repository.save(AccountModel.builder()
                 .id(accountDto.getId())
                 .acno(acno)
-                .acpw(encodePassword)
+                .acpw(passwordEncoder.encode(accountDto.getAcpw()))
                 .balance(0L)
                 .refundAcno(accountDto.getRefundAcno())
                 .bank(accountDto.getBank())
                 .acType(accountDto.getAcType())
                 .userId(accountDto.getUserId())
                 .build());
-
         return Messenger.builder()
                 .message(accountModel instanceof AccountModel ? "SUCCESS" : "FAIURE")
                 .build();
+    }
+
+    private boolean checkAiAc(Long id, String acType) {
+        return repository.existsByUserIdAndAcType(id, acType);
     }
 
     @Override
@@ -103,20 +103,22 @@ public class AccountServiceImpl implements AccountService {
     public Messenger deposit(AccountDto accountDto) {
         AccountModel ac = repository.findById(accountDto.getId()).get();
 
-        ac.setBalance(ac.getBalance() + accountDto.getBalance());
-
-        repository.save(ac);
+//        ac.setBalance(ac.getBalance() + accountDto.getBalance());
+//
+//        repository.save(ac);
+        long txBalance = ac.getBalance() + accountDto.getBalance();
+        int result = repository.modifyBalanceById(ac.getId(), txBalance);
 
         accHistoryRepository.save(AccHistoryModel.builder()
                 .balance(accountDto.getBalance())
                 .tradeType(accountDto.getTradeType())
-                .bank(accountDto.getBank())
+                .briefs(accountDto.getBriefs())
                 .imp_uid(accountDto.getPaymentUid())
                 .account(ac)
                 .build());
 
         return Messenger.builder()
-                .message(repository.save(ac).getBalance() >= accountDto.getBalance() ? "SUCCESS" : "FAIURE")
+                .message(result == 1 ? "SUCCESS" : "FAIURE")
                 .build();
     }
 
@@ -126,27 +128,63 @@ public class AccountServiceImpl implements AccountService {
         AccountModel ac = repository.findById(accountDto.getId()).get();
         long txBalance = ac.getBalance() - accountDto.getBalance();
 
-        if (txBalance >= 0) {
-            ac.setBalance(txBalance);
+        if (passwordEncoder.matches(accountDto.getAcpw(), ac.getAcpw())) {
+            if (txBalance >= 0) {
+//            ac.setBalance(txBalance);
+//            repository.save(ac);
+                int result = repository.modifyBalanceById(ac.getId(), txBalance);
 
-            repository.save(ac);
-
-            accHistoryRepository.save(AccHistoryModel.builder()
-                    .balance(accountDto.getBalance())
-                    .tradeType(accountDto.getTradeType())
-                    .bank(accountDto.getBank())
-                    .imp_uid(accountDto.getPaymentUid())
-                    .account(ac)
-                    .build());
-
+                accHistoryRepository.save(AccHistoryModel.builder()
+                        .balance(accountDto.getBalance())
+                        .tradeType(accountDto.getTradeType())
+                        .briefs(accountDto.getBriefs())
+                        .imp_uid(accountDto.getPaymentUid())
+                        .account(ac)
+                        .build());
+                return Messenger.builder()
+                        .message(result == 1 ? "SUCCESS" : "FAIURE")
+                        .build();
+            } else {
+                return Messenger.builder()
+                        .message("잔액이 부족합니다.")
+                        .build();
+            }
+        } else {
             return Messenger.builder()
-                    .message(repository.save(ac).getBalance() <= ac.getBalance() ? "SUCCESS" : "FAIURE")
-                    .build();
-        }else {
-            return Messenger.builder()
-                    .message("잔액이 부족합니다.")
+                    .message("비밀번호를 다시 입력바랍니다.")
                     .build();
         }
     }
+
+    @Override
+    @Transactional
+    public Messenger acTransfer(AccountDto accountDto) {
+
+        AccountDto acDto = AccountDto.builder()
+                .id(accountDto.getId())
+                .balance(accountDto.getBalance())
+                .tradeType("출금")
+                .acpw(accountDto.getAcpw())
+                .briefs(accountDto.getBriefs() + " 송금")
+                .build();
+
+        AccountDto rcDto = AccountDto.builder()
+                .id(accountDto.getReceiveAcId())
+                .balance(accountDto.getBalance())
+                .tradeType("입금")
+                .briefs(accountDto.getBriefs() + " 송금")
+                .build();
+
+        if (withdraw(acDto).getMessage().equals("SUCCESS")) {
+            return Messenger.builder()
+                    .message(deposit(rcDto).getMessage().equals("SUCCESS") ? "SUCCESS" : "FAIURE")
+                    .build();
+        } else {
+            return Messenger.builder()
+                    .message("FAIURE")
+                    .build();
+        }
+    }
+
 
 }

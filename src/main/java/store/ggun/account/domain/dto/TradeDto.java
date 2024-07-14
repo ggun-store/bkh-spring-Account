@@ -16,53 +16,31 @@ import java.util.ArrayList;
 @Component
 @NoArgsConstructor
 @Data
+@AllArgsConstructor
 @Builder
 @Log4j2
 public class TradeDto {
 
-
-    private Long id;
-    private String ordDt;             //주문일
-    private String ordGnoBrno;        //주문채번지점번호
-    private String odno;              //주문번호
-    private String ordDvsnName;       //주문구분명
-    private String sllBuyDvsnCd;      //매도매수구분코드
-    private String sllBuyDvsnCdName;  //매도매수구분코드명
-    private String pdno;              //상품번호
-    private String prdtName;          //상품명
-    private String ordTmd;            //주문시각
-    private String ordQty;            //주문수량
-    private String totCcldQty;        //총체결수량
-    private String avgPrvs;           //평균가
-    private String totCcldAmt;        //총체결금액
-    private String ordDvsnCd;         //주문구분코드
+//    localhost:8888/api/trades/history
+//    post
+    private long tradeId;
+    private long odno; //주문번호
+    private String ordDvsnName; //주문구분명 : 시장가 or 지정가
+    private int ordDvsnCd; //주문 구분 코드
+    private int sllBuyDvsnCd; // 매도 매수 구분코드
+    private String pdno; //상품번호
+    private String prdtName; //상품명
+    private int ordQty; //주문 수량
+    private int totCcldQty; // 총 체결수량
+    private long ccldPrvs; // 평균가(체결가, 지정가) - 이름만 평균가임
+    private String tradeType; // 거래타입(ai,user)
+    private long sellingFee; //매도 수수료
+    private long sellingTax;
+    private double standardFee; // 수수료(기준)0.015%
+    private double baseTax; //세금(기준)0.20%
     private String regDate;
     private String modDate;
     private Long account;
 
-    @QueryProjection
-    public TradeDto(Long id, String ordDt, String ordGnoBrno, String odno, String ordDvsnName,
-                    String sllBuyDvsnCd, String sllBuyDvsnCdName, String pdno, String prdtName,
-                    String ordTmd, String ordQty, String totCcldQty, String avgPrvs, String totCcldAmt,
-                    String ordDvsnCd, String regDate, String modDate, Long account) {
-        this.id = id;
-        this.ordDt = ordDt;
-        this.ordGnoBrno = ordGnoBrno;
-        this.odno = odno;
-        this.ordDvsnName = ordDvsnName;
-        this.sllBuyDvsnCd = sllBuyDvsnCd;
-        this.sllBuyDvsnCdName = sllBuyDvsnCdName;
-        this.pdno = pdno;
-        this.prdtName = prdtName;
-        this.ordTmd = ordTmd;
-        this.ordQty = ordQty;
-        this.totCcldQty = totCcldQty;
-        this.avgPrvs = avgPrvs;
-        this.totCcldAmt = totCcldAmt;
-        this.ordDvsnCd = ordDvsnCd;
-        this.regDate = regDate;
-        this.modDate = modDate;
-        this.account = account;
-    }
 
 }

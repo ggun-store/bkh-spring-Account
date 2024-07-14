@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 //import com.jsggun.account.trade.model.Trade;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"id"})
@@ -26,8 +28,17 @@ public class AccountModel extends BaseEntity {
 
     private Long userId;
 
-//    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL,orphanRemoval = true)
-//    private List<Trade> trades;
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<TradeModel> trades;
+
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<OwnStockModel> OwnStocks;
+
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<AccHistoryModel> AccHistories;
+
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<NonCcldModel> nonCclds;
 
 
 

@@ -21,7 +21,7 @@ public class AccHistoryDto {
 
     private Long balance;
     private String tradeType;
-    private String bank;
+    private String briefs;
 
     private Long account;
 }

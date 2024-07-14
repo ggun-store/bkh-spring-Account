@@ -15,4 +15,5 @@ public interface UtilService {
     String createRandomJob();
 
     String createRandomUsername();
+    String createAccountNumber(String acType);
 }

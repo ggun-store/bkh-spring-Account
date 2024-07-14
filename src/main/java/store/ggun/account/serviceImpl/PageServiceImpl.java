@@ -1,6 +1,7 @@
 package store.ggun.account.serviceImpl;
 
 
+import org.springframework.data.domain.Page;
 import store.ggun.account.domain.dto.PageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -28,6 +28,8 @@ public interface OwnStockService extends CommandService<OwnStockDto>, QueryServi
                 .avgPrvs(ownStockModel.getAvgPrvs())
                 .tradeType(ownStockModel.getTradeType())
                 .account(ownStockModel.getAccount().getId())
+                .regDate(String.valueOf(ownStockModel.getRegDate()))
+                .modDate(String.valueOf(ownStockModel.getModDate()))
 
                 .build();
     }

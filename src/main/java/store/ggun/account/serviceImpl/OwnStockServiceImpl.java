@@ -9,6 +9,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import store.ggun.account.domain.dto.AccountDto;
 import store.ggun.account.domain.dto.Messenger;
 import store.ggun.account.domain.dto.OwnStockDto;
+import store.ggun.account.domain.dto.TradeDto;
 import store.ggun.account.domain.model.AccountModel;
 import store.ggun.account.domain.model.OwnStockModel;
 import store.ggun.account.repository.AccountRepository;
@@ -17,8 +18,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import store.ggun.account.repository.TradeDao;
 import store.ggun.account.service.AccountService;
 import store.ggun.account.service.OwnStockService;
+import store.ggun.account.service.TradeService;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +34,7 @@ public class OwnStockServiceImpl implements OwnStockService {
     private final OwnStockRepository ownStockRepository;
     private final AccountRepository accountRepository;
     private final AccountService accountService;
+    private final TradeService tradeService;
     private final KISOpenFeign openFeign;
 //    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("emf"); //엔티티 매니저 팩토리 생성
 //    private final EntityManager em = emf.createEntityManager(); //엔티티 매니저 생성
@@ -38,7 +42,7 @@ public class OwnStockServiceImpl implements OwnStockService {
 
     @Override
     public List<OwnStockDto> findByAccount(Long id) {
-        return ownStockRepository.findByAccountId(id);
+        return ownStockRepository.findByAccountId(id).stream().map(i->entityToDto(i)).toList();
     }
 
     @Override
@@ -52,16 +56,19 @@ public class OwnStockServiceImpl implements OwnStockService {
         long totalPurchaseAmount = stock.isEmpty() ? 0L : stock.get().getPdQty() * stock.get().getAvgPrvs();
 
         long totalPdQty = 0L;
+        int result = 0;
+        String msg = "";
+        String tradeHistory ="";
 
         if (ownStockDto.getSllBuyDvsnCd() == 1) {
 
             AccountDto acDto = AccountDto.builder()
                     .id(account.get().getId())
                     .balance(totalOrderAmount)
-                    .tradeType("출금")
-                    .bank(ownStockDto.getPrdtName() + " 매수")
+                    .tradeType("주식매수출금")
+                    .briefs(ownStockDto.getPrdtName() + " 매수")
                     .build();
-            String msg = accountService.withdraw(acDto).getMessage();
+             msg = accountService.withdraw(acDto).getMessage();
             if (msg.equals("SUCCESS")) {
                 if (stock.isEmpty()) {
                     ownStockRepository.save(OwnStockModel.builder()
@@ -72,19 +79,49 @@ public class OwnStockServiceImpl implements OwnStockService {
                             .tradeType(ownStockDto.getTradeType())
                             .account(account.get())
                             .build());
+
+                    TradeDto tradeDto = TradeDto.builder()
+                            .ordDvsnName(ownStockDto.getOrdDvsnCd()==1?"시장가":"지정가")
+                            .ordDvsnCd(ownStockDto.getOrdDvsnCd())
+                            .sllBuyDvsnCd(ownStockDto.getSllBuyDvsnCd())
+                            .pdno(ownStockDto.getPdno())
+                            .prdtName(ownStockDto.getPrdtName())
+                            .ordQty(ownStockDto.getPdQty())
+//                            .totCcldQty()
+                            .ccldPrvs(ownStockDto.getAvgPrvs())
+                            .standardFee(0.015)
+                            .baseTax(0.02)
+                            .account(ownStockDto.getAccount())
+                            .build();
+
+                    tradeHistory = tradeService.save(tradeDto).getMessage();
+
                     return Messenger.builder().message(msg).build();
 
                 } else {
                     totalPdQty = stock.get().getPdQty() + ownStockDto.getPdQty();
+                    long avgPrvs = (totalOrderAmount + totalPurchaseAmount) / totalPdQty;
 
+//                    stock.get().setPdQty(totalPdQty);
+//                    stock.get().setAvgPrvs(avgPrvs);
+//                    ownStockRepository.save(stock.get());
+                    TradeDto tradeDto = TradeDto.builder()
+                            .ordDvsnName(ownStockDto.getOrdDvsnCd()==1?"시장가":"지정가")
+                            .ordDvsnCd(ownStockDto.getOrdDvsnCd())
+                            .sllBuyDvsnCd(ownStockDto.getSllBuyDvsnCd())
+                            .pdno(ownStockDto.getPdno())
+                            .prdtName(ownStockDto.getPrdtName())
+                            .ordQty(ownStockDto.getPdQty())
+//                            .totCcldQty()
+                            .ccldPrvs(ownStockDto.getAvgPrvs())
+                            .standardFee(0.015)
+                            .baseTax(0.02)
+                            .account(ownStockDto.getAccount())
+                            .build();
+                    tradeHistory = tradeService.save(tradeDto).getMessage();
+                     result = ownStockRepository.modifyStock(stock.get().getId(), totalPdQty,avgPrvs);
 
-                    stock.get().setPdQty(totalPdQty);
-                    stock.get().setAvgPrvs((totalOrderAmount + totalPurchaseAmount) / totalPdQty);
-
-                    ownStockRepository.save(stock.get());
-
-
-                    return Messenger.builder().message(msg).build();
+                    return Messenger.builder().message(result==1 ? msg :"FAIURE").build();
                 }
             }else {
                 return Messenger.builder().message(msg).build();
@@ -97,22 +134,57 @@ public class OwnStockServiceImpl implements OwnStockService {
             } else {
                 totalPdQty = stock.get().getPdQty() - ownStockDto.getPdQty();
 
-                stock.get().setPdQty(totalPdQty);
+//                stock.get().setPdQty(totalPdQty);
 //                stock.get().setAvgPrvs( totalPurchaseAmount / totalPdQty);
 
-                if (ownStockRepository.save(stock.get()).getPdQty() == 0) {
-                    ownStockRepository.deleteByPdnoAndAccountId(ownStockDto.getPdno(), ownStockDto.getAccount());
+                if (totalPdQty == 0) {
+                    result = ownStockRepository.deleteByPdnoAndAccountId(ownStockDto.getPdno(), ownStockDto.getAccount());
+                }else {
+                    result = ownStockRepository.modifyStock(stock.get().getId(), totalPdQty);
                 }
+                String userAc = "";
+                String adminAc = "";
+                if(result ==1 ) {
+                    long fee = Math.round(totalOrderAmount*0.00015);
+                    long tax = Math.round(totalOrderAmount*0.002);
+                    long netIncome = totalOrderAmount - fee-tax;
+                    AccountDto UserAcDto = AccountDto.builder()
+                            .id(account.get().getId())
+                            .balance(netIncome)
+                            .tradeType("주식매도입금")
+                            .briefs(ownStockDto.getPrdtName() + " 매도")
+                            .build();
+                    AccountDto adimAcDto = AccountDto.builder()
+                            .id(1L)
+                            .balance(fee)
+                            .tradeType("입금")
+                            .briefs("사용자 매도수수료입금")
+                            .build();
+                    TradeDto tradeDto = TradeDto.builder()
+                            .ordDvsnName(ownStockDto.getOrdDvsnCd()==1?"시장가":"지정가")
+                            .ordDvsnCd(ownStockDto.getOrdDvsnCd())
+                            .sllBuyDvsnCd(ownStockDto.getSllBuyDvsnCd())
+                            .pdno(ownStockDto.getPdno())
+                            .prdtName(ownStockDto.getPrdtName())
+                            .ordQty(ownStockDto.getPdQty())
+//                            .totCcldQty()
+                            .ccldPrvs(ownStockDto.getAvgPrvs())
+                            .sellingFee(fee)
+                            .sellingTax(tax)
+                            .standardFee(0.015)
+                            .baseTax(0.02)
+                            .account(ownStockDto.getAccount())
+                            .build();
 
-                AccountDto acDto = AccountDto.builder()
-                        .id(account.get().getId())
-                        .balance(totalOrderAmount)
-                        .tradeType("입금")
-                        .bank(ownStockDto.getPrdtName() + " 매도")
-                        .build();
+                    userAc = accountService.deposit(UserAcDto).getMessage();
+                    adminAc = accountService.deposit(adimAcDto).getMessage();
+                    tradeHistory = tradeService.save(tradeDto).getMessage();
 
-                accountService.deposit(acDto);
-                return Messenger.builder().message("주문(매도) 완료").build();
+                }
+                return Messenger.builder().message(userAc.equals("SUCCESS")
+                        &&adminAc.equals("SUCCESS")
+                        &&tradeHistory.equals("SUCCESS")
+                        ? "주문(매도) 완료": "FAIURE").build();
             }
         }
         return Messenger.builder().message("매도/매수 선택").build();
@@ -140,9 +212,7 @@ public class OwnStockServiceImpl implements OwnStockService {
 
     @Override
     public long count() {
-        openFeign.getAppToken();
-        openFeign.getPrice("005930");
-        return 0;
+        return ownStockRepository.count();
     }
 
     @Override

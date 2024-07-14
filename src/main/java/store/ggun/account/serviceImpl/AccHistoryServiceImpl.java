@@ -1,5 +1,10 @@
 package store.ggun.account.serviceImpl;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import store.ggun.account.domain.dto.AccHistoryDto;
 import store.ggun.account.domain.model.AccHistoryModel;
 import store.ggun.account.repository.AccHistoryRepository;
@@ -10,11 +15,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import store.ggun.account.service.AccHistoryService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccHistoryServiceImpl implements AccHistoryService {
 
     private final AccHistoryRepository repository;
@@ -62,7 +69,13 @@ public class AccHistoryServiceImpl implements AccHistoryService {
     }
 
     @Override
-    public List<AccHistoryDto> findByAccount(Long id) {
-        return repository.findByAccountId(id);
+    public Page<AccHistoryDto> findByAccount(Long id,int page) {
+
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("regDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+//        Page<AccHistoryDto> a = repository.findByAccountId(id,pageable).map(i->entityToDto(i));
+//        log.info("확인 {}" , a);
+        return repository.findByAccountId(id,pageable).map(i->entityToDto(i));
     }
 }

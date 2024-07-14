@@ -12,8 +12,13 @@ public interface NonCcldService extends CommandService<NonCcldDto>, QueryService
         return NonCcldModel.builder()
                 .id(nonCcldDto.getId())
                 .ccldPrvs(nonCcldDto.getCcldPrvs())
-                .volume(nonCcldDto.getVolume())
-                .accountModel(accountModel)
+                .pdQty(nonCcldDto.getPdQty())
+                .pdno(nonCcldDto.getPdno())
+                .prdtName(nonCcldDto.getPrdtName())
+                .tradeType(nonCcldDto.getTradeType())
+                .sllBuyDvsnCd(nonCcldDto.getSllBuyDvsnCd())
+                .ordDvsnCd(nonCcldDto.getOrdDvsnCd())
+                .account(accountModel)
                 .build();
     }
 
@@ -21,8 +26,13 @@ public interface NonCcldService extends CommandService<NonCcldDto>, QueryService
         return NonCcldDto.builder()
                 .id(nonCcldModel.getId())
                 .ccldPrvs(nonCcldModel.getCcldPrvs())
-                .volume(nonCcldModel.getVolume())
-                .account(nonCcldModel.getAccountModel().getId())
+                .pdQty(nonCcldModel.getPdQty())
+                .pdno(nonCcldModel.getPdno())
+                .prdtName(nonCcldModel.getPrdtName())
+                .tradeType(nonCcldModel.getTradeType())
+                .sllBuyDvsnCd(nonCcldModel.getSllBuyDvsnCd())
+                .ordDvsnCd(nonCcldModel.getOrdDvsnCd())
+                .account(nonCcldModel.getAccount().getId())
                 .build();
     }
 

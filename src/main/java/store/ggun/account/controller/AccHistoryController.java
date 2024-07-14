@@ -1,5 +1,6 @@
 package store.ggun.account.controller;
 
+import org.springframework.data.domain.Page;
 import store.ggun.account.domain.dto.AccHistoryDto;
 import store.ggun.account.service.AccHistoryService;
 import store.ggun.account.domain.dto.Messenger;
@@ -29,8 +30,8 @@ public class AccHistoryController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<AccHistoryDto>> findAll(@RequestParam Long id){
-        return ResponseEntity.ok(service.findByAccount(id));
+    public ResponseEntity<Page<AccHistoryDto>> findAll(@RequestParam Long id, @RequestParam(value="page", defaultValue="0") int page){
+        return ResponseEntity.ok(service.findByAccount(id,page));
     }
 
     @GetMapping("/detail")

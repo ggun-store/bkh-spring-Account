@@ -8,27 +8,26 @@ import lombok.*;
 @Builder
 @Setter
 @AllArgsConstructor
-@ToString(exclude = {"id"})
 @Entity(name = "trades")
 public class TradeModel extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String ordDt;             //주문일
-    private String ordGnoBrno;        //주문채번지점번호
-    private String odno;              //주문번호
-    private String ordDvsnName;       //주문구분명
-    private String sllBuyDvsnCd;      //매도매수구분코드
-    private String sllBuyDvsnCdName;  //매도매수구분코드명
-    private String pdno;              //상품번호
-    private String prdtName;          //상품명
-    private String ordTmd;            //주문시각
-    private String ordQty;            //주문수량
-    private String totCcldQty;        //총체결수량
-    private String avgPrvs;           //평균가
-    private String totCcldAmt;        //총체결금액
-    private String ordDvsnCd;         //주문구분코드
+    private long tradeId;
+    private long odno; //주문번호
+    private String ordDvsnName; //주문구분명 : 시장가 or 지정가
+    private int ordDvsnCd; //주문 구분 코드  1:시장가 or 2:지정가
+    private int sllBuyDvsnCd; // 매도 매수 구분코드  1:매수 or 2:매도
+    private String pdno; //상품번호
+    private String prdtName; //상품명
+    private int ordQty; //주문 수량
+    private int totCcldQty; // 총 체결수량
+    private long ccldPrvs; // 평균가(체결가, 지정가) - 이름만 평균가임
+    private String tradeType; // 거래타입(ai,user)
+    private long sellingFee; //매도 수수료
+    private long sellingTax; //매도 세금
+    private double standardFee; // 수수료(기준)0.015%
+    private double baseTax; //세금(기준)0.20%
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")

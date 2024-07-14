@@ -40,4 +40,5 @@ public interface AccountService extends CommandService<AccountDto>, QueryService
     Messenger deposit(AccountDto accountDto);
 
     Messenger withdraw(AccountDto accountDto);
+    Messenger acTransfer(AccountDto accountDto);
 }

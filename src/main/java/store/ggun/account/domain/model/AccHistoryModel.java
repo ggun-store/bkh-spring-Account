@@ -16,7 +16,7 @@ public class AccHistoryModel extends BaseEntity {
     private Long id;
     private Long balance;
     private String tradeType;
-    private String bank;
+    private String briefs;
     private String imp_uid;
 
     @ManyToOne

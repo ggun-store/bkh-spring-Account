@@ -85,5 +85,15 @@ public class UtilServiceImpl implements UtilService {
 
     }
 
+    public String createAccountNumber(String acnoType){
+        String acno = "";
+        if (acnoType.equals("01")) {
+            acno = createRandomInteger(20000000, 29999999) + "-" + acnoType;
+        } else if (acnoType.equals("02")) {
+            acno = createRandomInteger(50000000, 59999999) + "-" + acnoType;
+        }
+        return acno;
+    }
+
 
 }

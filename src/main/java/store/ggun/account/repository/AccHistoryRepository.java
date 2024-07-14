@@ -1,5 +1,7 @@
 package store.ggun.account.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import store.ggun.account.domain.dto.AccHistoryDto;
 import store.ggun.account.domain.model.AccHistoryModel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +13,6 @@ import java.util.List;
 public interface AccHistoryRepository extends JpaRepository<AccHistoryModel,Long> {
 
 
-    List<AccHistoryDto> findByAccountId(Long id);
+//    List<AccHistoryModel> findByAccountId(Long id);
+    Page<AccHistoryModel> findByAccountId(Long id, Pageable pageable);
 }

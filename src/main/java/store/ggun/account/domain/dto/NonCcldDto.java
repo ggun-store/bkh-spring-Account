@@ -18,7 +18,13 @@ public class NonCcldDto {
 
     private Long id;
     private Long ccldPrvs;
-    private Long volume;
-
+    private int pdQty;
+    private String pdno;
+    private String prdtName;
+    private String tradeType;
+    private int sllBuyDvsnCd;
+    private int ordDvsnCd;
     private Long account;
+    private String regDate;
+    private String modDate;
 }
